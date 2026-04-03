@@ -460,3 +460,17 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+function shareApp() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: "Don't Forget 🔔", url })
+      .then(() => showToast('✓ تم الشير بنجاح !'))
+      .catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('📋 اتنسخ الرابط!');
+    }).catch(() => {
+      showToast('🔗 ' + url);
+    });
+  }
+}
