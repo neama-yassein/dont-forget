@@ -1,0 +1,36 @@
+{
+  "name": "Don't Forget 🔔",
+  "short_name": "Don't Forget",
+  "description": "تطبيق تذكيرات سايبربانك - ماتنساش حاجة مهمة!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020208",
+  "theme_color": "#00f5ff",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "تاسك جديد",
+      "short_name": "تاسك",
+      "description": "ضيف تاسك جديد بسرعة",
+      "url": "/?new=true",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

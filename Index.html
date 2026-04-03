@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DON'T FORGET</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00f5ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Don't Forget">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="spaceCanvas"></canvas>
+<canvas id="spaceCanvas"></canvas>
+
+<button class="share-btn" onclick="shareApp()" title="شارك ياعم مع غيرك عشان يشوف اللي وراه">
+  <span class="share-icon">🚀</span>
+  <span class="share-label">SHARE</span>
+</button>
+
+<div class="wrapper">
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="logo-main">
+      <span class="logo-bell">🔔</span>
+      <span class="logo-dont"> DON'T </span>
+      <span class="logo-forget">FORGET</span>
+    </div>
+    <p class="tagline">// REMINDER SYSTEM ONLINE //</p>
+  </header>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-box pink">
+      <div class="stat-num" id="statTotal">0</div>
+      <div class="stat-label">إجمالي التاسكات</div>
+    </div>
+    <div class="stat-box cyan">
+      <div class="stat-num" id="statPending">0</div>
+      <div class="stat-label">جايّة</div>
+    </div>
+    <div class="stat-box yellow">
+      <div class="stat-num" id="statUrgent">0</div>
+      <div class="stat-label">عاجلة</div>
+    </div>
+    <div class="stat-box green">
+      <div class="stat-num" id="statDone">0</div>
+      <div class="stat-label">خلصت النهارده</div>
+    </div>
+  </div>
+
+  <!-- Notif Banner -->
+  <div id="permBanner" onclick="requestNotifPerm()">
+    <span style="color:var(--neon-pink)">⚡</span>
+    <span>فعّل الإشعارات عشان نقدر ننبهك صح!</span>
+    <span style="margin-right:auto; color:var(--neon-cyan); font-family:'Orbitron',monospace; font-size:0.7rem;">ENABLE →</span>
+  </div>
+
+  <!-- Add Task Card -->
+  <div class="card">
+    <div class="card-title">⬡ تاسك جديد</div>
+    <div class="form-grid">
+
+      <div class="form-group full">
+        <label>اسم التاسك</label>
+        <input type="text" id="taskName" placeholder="مثلاً: تسليم الـ project...">
+      </div>
+
+      <div class="form-group">
+        <label>التاريخ</label>
+        <input type="date" id="taskDate">
+      </div>
+
+      <div class="form-group">
+        <label>الوقت</label>
+        <input type="time" id="taskTime">
+      </div>
+
+      <div class="form-group full">
+        <label>الأولوية</label>
+        <div class="chips-row" id="priorityRow">
+          <button class="chip" data-priority="urgent">🔴 عاجل</button>
+          <button class="chip active" data-priority="important">🟡 مهم</button>
+          <button class="chip" data-priority="normal">🔵 عادي</button>
+        </div>
+      </div>
+
+      <div class="form-group full">
+        <label>الفئة</label>
+        <div class="chips-row" id="catRow">
+          <button class="chip active" data-cat="work">💼 شغل</button>
+          <button class="chip" data-cat="study">📚 دراسة</button>
+          <button class="chip" data-cat="personal">🙋 شخصي</button>
+          <button class="chip" data-cat="other">📌 غيره</button>
+        </div>
+      </div>
+
+      <div class="form-group full">
+        <label>التكرار</label>
+        <div class="chips-row" id="repeatRow">
+          <button class="chip active" data-repeat="once">مرة واحدة</button>
+          <button class="chip" data-repeat="5min">كل 5 د</button>
+          <button class="chip" data-repeat="15min">كل 15 د</button>
+          <button class="chip" data-repeat="1hr">كل ساعة</button>
+        </div>
+      </div>
+
+      <div class="form-group full">
+        <label>ملاحظة (اختياري)</label>
+        <textarea id="taskNote" placeholder="أي تفاصيل..."></textarea>
+      </div>
+
+    </div>
+    <button class="btn-add" onclick="addTask()">[ + ADD TASK ]</button>
+  </div>
+
+  <!-- Tasks List -->
+  <div class="section-header">
+    <div class="section-title">
+      ⬡ التاسكات
+      <span class="count-badge" id="taskCount">0</span>
+    </div>
+    <button class="clear-btn" onclick="clearDone()">مسح المنتهية</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="setTab('all',this)">الكل</button>
+    <button class="tab" onclick="setTab('urgent',this)">🔴 عاجل</button>
+    <button class="tab" onclick="setTab('pending',this)">جاية</button>
+    <button class="tab" onclick="setTab('done',this)">✓ خلصت</button>
+  </div>
+
+  <div id="taskList"></div>
+</div>
+
+<!-- Toast -->
+<div id="toast">⬡ <span id="toastMsg"></span></div>
+
+<!-- Alert Overlay -->
+<div id="alertOverlay">
+  <div class="alert-card">
+    <span class="alert-bell">🔔</span>
+    <div class="alert-label">// DON'T FORGET //</div>
+    <div class="alert-task-name" id="alertTaskName"></div>
+    <div class="alert-note" id="alertTaskNote"></div>
+    <button class="btn-dismiss" onclick="dismissAlert()">[ GOT IT ]</button>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
