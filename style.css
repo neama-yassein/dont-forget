@@ -781,8 +781,8 @@ select option { background: var(--surface2); }
 .share-btn {
   position: fixed;
   left: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 1.2rem;
+  transform: none;
   z-index: 100;
   background: transparent;
   border: 1px solid var(--neon-cyan);
@@ -807,7 +807,7 @@ select option { background: var(--surface2); }
 .share-btn:hover {
   background: rgba(0,245,255,0.08);
   box-shadow: 0 0 30px rgba(0,245,255,0.4);
-  transform: translateY(-50%) translateX(-3px);
+  transform: translateX(-3px);
 }
 
 .share-icon {
